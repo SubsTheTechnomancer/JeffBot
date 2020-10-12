@@ -12,9 +12,6 @@ decorator==4.4.2
 discord.py==1.4.1
 h5py==2.10.0
 idna==2.10
-ipykernel==5.3.4
-ipython==7.17.0
-ipython-genutils==0.2.0
 isort==4.3.21
 jedi==0.17.2
 jupyter-client==6.1.6
