@@ -1,6 +1,7 @@
 import os
 import discord
 import random
+import json
 from dotenv import load_dotenv
 
 intents = discord.Intents.default()
@@ -22,6 +23,14 @@ async def on_ready():
 
     role = discord.utils.get(guild.roles, name='Flagship stedier of the day')
 
+    file = open("flagshipdata.txt","r")
+    fdata = file.read()
+    if(fdata != ''):
+        datas = json.loads(fdata)
+    else:
+        datas = 0
+    file.close()
+
     for stateboard in role.members:
         print(role.name)
         print(stateboard.name)
@@ -31,7 +40,17 @@ async def on_ready():
             print(f"Forbidden task is being done for {stateboard.name}")
         except discord.HTTPException:
             print("EZ HTTTP funs")
-        msg = await botchannel.send(content=stateboard.name+" was a flagship stedier yesterday!")
+
+        if(type(datas) != dict):
+            datas = {stateboard.name:1}
+        elif(stateboard.name not in datas.keys()):
+            datas[stateboard.name] = 1
+        elif(stateboard.name in datas.keys()):
+            datas[stateboard.name] = datas[stateboard.name]+1
+        fo = open("flagshipdata.txt","wt")
+        fo.write(str(datas).replace("\'","\""))
+
+        msg = await botchannel.send(content=stateboard.name+" was a flagship stedier "+str(datas[stateboard.name])+" times!")
         await msg.add_reaction(random.choice(client.emojis))
 
 

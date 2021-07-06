@@ -1,1 +1,1 @@
-worker: py jeffbot.py
+worker: py flagshipbot.py
